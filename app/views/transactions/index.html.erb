@@ -20,6 +20,8 @@
           <th class="py-2 px-4 border-b">Amount</th>
           <th class="py-2 px-4 border-b">Currency</th>
           <th class="py-2 px-4 border-b">Direction</th>
+          <th class="py-2 px-4 border-b">Company logo</th>
+          <th class="py-2 px-4 border-b">classifier_payload</th>
           <th class="py-2 px-4 border-b">Actions</th>
         </tr>
       </thead>
@@ -32,6 +34,15 @@
             <td class="py-2 px-4 border-b"><%= transaction.amount %></td>
             <td class="py-2 px-4 border-b"><%= transaction.currency %></td>
             <td class="py-2 px-4 border-b"><%= transaction.direction %></td>
+            <td class="py-2 px-4 border-b">
+              <% if transaction.classifier_payload.present? %>
+                <% payload = JSON.parse(transaction.classifier_payload) %>
+                <% if payload['legal_entity'] && payload['legal_entity']['logo_url'] %>
+                  <%= image_tag payload['legal_entity']['logo_url'], alt: 'Company Logo', class: 'h-10 w-10' %>
+                <% end %>
+              <% end %>
+            </td>
+            <td class="py-2 px-4 border-b"><%= transaction.classifier_payload %></td>
             <td class="py-2 px-4 border-b">
               <%= link_to "Show", transaction, class: "ml-2 rounded-lg py-1 px-3 bg-gray-100 inline-block font-medium" %>
             </td>
